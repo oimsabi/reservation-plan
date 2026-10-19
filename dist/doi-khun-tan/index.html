@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ขุนตาล — เลือกที่พักบนแผนที่</title>
+  <meta name="description" content="สำรวจบ้านพักดอยขุนตาล 19 หลังและลานเต็นท์บนแผนที่ เปรียบเทียบราคา ความสบาย และระยะทางไป ย.4 สำหรับทริปของคุณ">
+  <meta name="theme-color" content="#173e33">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script><script src="model.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#map-section">ข้ามไปแผนที่</a>
+  <div class="hub-bar"><a href="../">← Reservation Plan</a><span>บันทึกการเดินทาง / Doi Khun Tan</span></div>
+  <header class="header"><a href="#" class="brand" aria-label="ขุนตาล หน้าแรก"><svg viewBox="0 0 44 40" aria-hidden="true"><path d="M3 33 17 8l9 16 6-10 10 19H3Z"/><path d="m12 18 5 4 5-4M28 22l4 3 4-3"/></svg><span>ขุนตาล<small>STAY & EXPLORE</small></span></a><nav aria-label="เมนูหลัก"><a class="nav-map" href="#map-section">สำรวจแผนที่</a><a href="#compare-section">เทียบที่พัก <span id="nav-count">0</span></a><a href="https://booking.dnp.go.th/parksdetail.php?id=140" target="_blank" rel="noopener noreferrer" class="official">เว็บไซต์อุทยานฯ ↗</a></nav></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow"><span></span> DOI KHUN TAN NATIONAL PARK</p><h1>เลือกที่พัก <em>ให้ใกล้ทริปของคุณ</em></h1><p class="intro-copy">บ้านกลางป่า หรือเต็นท์ใต้ต้นสน? ลองสำรวจบนแผนที่ แล้วเลือกจุดเริ่มต้นของเช้าวันใหม่ที่ ย.4</p></div><div class="intro-stamp"><span>19</span><div>บ้านพักให้สำรวจ<br><small>พร้อมตัวเลือกนอนเต็นท์</small></div><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28"/><path d="m21 44 11-28 11 28-11-7Z"/></svg></div></section>
+    <section id="map-section" class="explorer" aria-labelledby="explore-title">
+      <div class="explorer-heading"><div><span class="section-number">01</span><h2 id="explore-title">เริ่มสำรวจจากแผนที่</h2><span class="subtle desktop-only">คลิกจุดที่มีวงขอบเพื่อดูรายละเอียด</span></div><a href="assets/park-map.webp" target="_blank" class="text-link">เปิดแผนที่ WebP ↗</a></div>
+      <div class="workspace">
+        <div class="map-column">
+          <div class="map-toolbar"><div class="filters" role="group" aria-label="กรองโซน"><button class="active" data-filter="all" aria-pressed="true">ทั้งหมด</button><button data-filter="1" aria-pressed="false"><i class="dot z1"></i>โซน 1</button><button data-filter="2" aria-pressed="false"><i class="dot z2"></i>โซน 2</button><button data-filter="3" aria-pressed="false"><i class="dot z3"></i>โซน 3</button><button data-filter="4" aria-pressed="false"><i class="dot z4"></i>โซน 4</button><button data-filter="5" aria-pressed="false"><i class="dot z5"></i>โซน 5</button><button data-filter="camp" aria-pressed="false">△ เต็นท์</button></div><button id="show-list" class="text-link">รายชื่อที่พัก ↓</button></div>
+          <div id="map-viewport" class="map-viewport" tabindex="0" role="region" aria-label="แผนที่ที่พัก เลื่อนด้วยปุ่มลูกศร ซูมด้วยปุ่มบวกและลบ">
+            <div id="map-world"><img id="park-map" src="assets/park-map.webp" width="3000" height="2100" draggable="false" alt="ผังที่พักดอยขุนตาลจาก PDF แสดงบ้านพักโซน 1 ถึง 5 และเส้นทาง ย.1 ถึง ย.4"><div id="markers"></div></div>
+            <div class="map-status"><span class="live-dot"></span><span id="map-status-text">ผังที่พัก · เลื่อนและซูมได้</span></div>
+            <div class="map-controls" aria-label="เครื่องมือแผนที่"><button id="zoom-in" aria-label="ซูมเข้า">＋</button><button id="zoom-out" aria-label="ซูมออก">−</button><span></span><button id="map-home" aria-label="กลับไปดูโซนบ้านพัก" title="โซนบ้านพัก">⌂</button><button id="map-fit" aria-label="ดูแผนที่เต็มภาพ" title="เต็มภาพ">⤢</button></div>
+            <div class="map-bottom"><span>ลากเพื่อเลื่อน · ใช้ ＋ / − เพื่อซูม</span><button id="trail-view">ดูเส้นทาง ย.4 ↗</button></div>
+            <div id="map-error" hidden>โหลดแผนที่ไม่ได้ ยังเลือกรายชื่อที่พักด้านล่างเพื่อดูข้อมูลได้</div>
+          </div>
+          <div class="map-caption"><span>◎ ตำแหน่งตามผังอ้างอิง · ไม่ใช่มาตราส่วนจริง</span><span>WebP · 3,000 × 2,100 px</span></div>
+        </div>
+        <div id="detail-backdrop" hidden></div>
+        <aside id="details" class="details" aria-label="รายละเอียดที่พัก"><div id="detail-content"></div></aside>
+      </div>
+      <div id="stay-list" class="stay-list-section"><div class="list-heading"><h3>เลือกจากรายชื่อ</h3><span id="list-count" class="subtle"></span></div><div id="stay-list-grid" class="stay-list-grid"></div><p id="filter-empty" hidden>ยังไม่มีที่พักในตัวกรองนี้</p></div>
+    </section>
+    <section id="compare-section" class="compare-section" aria-labelledby="compare-title">
+      <div class="section-heading"><div><p class="eyebrow">MAKE ROOM FOR YOUR PEOPLE</p><h2 id="compare-title"><span class="section-number">02</span> ทริปเดียวกัน เลือกพักแบบไหนดี?</h2><p class="subtle">ลองปรับจำนวนคนและคืน เพื่อเห็นค่าใช้จ่ายของทั้งกลุ่ม</p></div><div class="trip-controls"><label>ผู้เดินทาง<div class="stepper"><button data-step="people:-1" aria-label="ลดจำนวนคน">−</button><input id="people" type="number" min="1" max="99" value="8" inputmode="numeric" aria-label="จำนวนผู้เดินทาง"><button data-step="people:1" aria-label="เพิ่มจำนวนคน">+</button><span>คน</span></div></label><label>พักทั้งหมด<div class="stepper"><button data-step="nights:-1" aria-label="ลดจำนวนคืน">−</button><input id="nights" type="number" min="1" max="30" value="1" inputmode="numeric" aria-label="จำนวนคืน"><button data-step="nights:1" aria-label="เพิ่มจำนวนคืน">+</button><span>คืน</span></div></label></div></div>
+      <div class="house-price-settings"><label><input type="checkbox" id="use-net-price"> คำนวณด้วยราคาสุทธิในไฟล์ (ส่วนลด 30%)</label><p id="price-basis" class="subtle" aria-live="polite"></p><p class="reference-note">ไฟล์ไม่ระบุวันเข้าพักหรือเงื่อนไขส่วนลด โปรดตรวจราคาที่ใช้ได้จริงกับระบบจอง</p></div>
+      <div class="selection-panel"><div class="selection-label"><span>ที่พักที่คุณเลือก</span><button id="clear-selection" class="text-link">ล้างทั้งหมด</button></div><div id="selected-chips"></div><div id="selection-summary" aria-live="polite"></div></div>
+      <div class="preset-heading"><h3>เทียบกับตัวเลือกยอดนิยม</h3><span class="subtle">ราคาอ้างอิง · ไม่ใช่การยืนยันห้องว่าง</span></div>
+      <div id="comparison-grid" class="comparison-grid"></div>
+      <details class="tent-settings"><summary><span>△ ปรับอุปกรณ์เต็นท์ที่ต้องเช่า</span><span class="subtle">ดูวิธีคิดค่าใช้จ่าย ＋</span></summary><div class="tent-setting-body"><p>สมมตินอน 2 คน/เต็นท์ ค่าเช่า 160–225 บาท/หลัง/คืน ค่าพื้นที่ 30 บาท/คน/คืน เป็นช่วงราคาอ้างอิงจากแชตเดิม ยังต้องยืนยันบริการและราคา ณ ลานสน ย.2</p><div class="equipment"><label><input type="checkbox" id="rent-bag" checked> ถุงนอน <b>30 บ./คน/คืน</b></label><label><input type="checkbox" id="rent-mat" checked> แผ่นรอง <b>20 บ./คน/คืน</b></label><label><input type="checkbox" id="rent-pillow"> หมอน <b>10 บ./คน/คืน</b></label><label><input type="checkbox" id="rent-ground" checked> คิดค่าพื้นที่แยก <b>หากไม่รวมอยู่ในค่าเช่า</b></label></div><p id="tent-formula" class="formula"></p></div></details>
+      <p class="cost-note">ยอดรวมคิดเฉพาะที่พักและอุปกรณ์ที่เลือก ไม่รวมค่าเข้าอุทยานฯ รถ อาหาร หรือบริการอื่น · คะแนนความสบายเป็นการประเมินเพื่อประกอบการเลือก ไม่ใช่คะแนนรีวิวผู้เข้าพัก</p>
+    </section>
+    <section class="trail-section" aria-labelledby="trail-title"><div class="trail-intro"><p class="eyebrow">WAKE UP CLOSER TO THE SUNRISE</p><h2 id="trail-title">จากลานสน<br>สู่เช้าวันใหม่ที่ ย.4</h2><p>ถ้าค้างที่ ย.2 ระยะเดินต่อถึง ย.4 ตามผังอ้างอิงประมาณ 4 กม. เที่ยวเดียว</p><button class="light-button" data-open="tent-y2">ดูจุดกางเต็นท์ ย.2 ↗</button></div><div class="trail-diagram"><div class="trail-stops"><div><i></i><strong>ย.2</strong><small>ลานสน · พักเต็นท์</small></div><span>3 กม.</span><div><i></i><strong>ย.3</strong><small>ทางผ่านขึ้นยอด</small></div><span>1 กม.</span><div><i class="sun-stop">☀</i><strong>ย.4</strong><small>จุดชมพระอาทิตย์ขึ้น</small></div></div><p>ระยะจากผังเส้นทาง ไม่ใช่การวัด GPS ใหม่ • ยืนยันเวลาเปิดเส้นทางและการเดินเช้ามืดกับเจ้าหน้าที่ก่อนเดินทาง</p></div></section>
+    <section class="sources-section"><details><summary>ข้อมูลนี้มาจากไหน และควรรู้อะไรก่อนจอง? <span>＋</span></summary><div class="source-copy"><p><b>ข้อมูลบ้านพักและราคา:</b> อัปเดตบ้านพัก 19 หลังจากไฟล์ “ที่ี่พักที่จองได้ ดอยขุนตาล.xlsx” ที่ผู้ใช้ส่งเมื่อ 14 ตุลาคม 2569 ครอบคลุมชื่อ โซน ความจุ ห้องนอน ห้องน้ำ สิ่งอำนวยความสะดวก ราคาปกติ ส่วนลด และราคาสุทธิ ไฟล์แสดงราคา 1 คืน แต่ไม่ระบุวันเข้าพัก เงื่อนไขส่วนลด หรือห้องว่างสด</p><p><b>รูปภาพและประเภทเตียง:</b> ข้อมูลเดิมจากหน้าบ้านพักของ <a href="https://booking.dnp.go.th/parksdetail.php?id=140" target="_blank" rel="noopener noreferrer">กรมอุทยานแห่งชาติฯ</a> ตรวจเมื่อ 13 ตุลาคม 2569 ภาพบางภาพใช้ร่วมกันหลายหลังและอาจเป็นภาพเก่า บ้านที่เพิ่มใหม่ไม่มีรูปภาพหรือประเภทเตียงในไฟล์</p><p><b>แผนที่:</b> ใช้แผนที่อ้างอิงที่ผู้ใช้จัดเตรียมจาก PDF แปลงเป็น WebP ขนาด 3,000 × 2,100 พิกเซล คงสัดส่วน 10:7 ตำแหน่งบ้านยังไม่มี GPS ยืนยันรายหลัง ระยะเดินจากบ้านเป็นช่วงประมาณจากแชตเดิม และบ้านโซน 3 ยังไม่มีระยะยืนยัน</p><p><b>เต็นท์:</b> ค่าพื้นที่ ค่าเช่า และอุปกรณ์เป็นสมมติฐานวางงบจากแชตเดิม ไม่ใช่อัตราที่ตรวจยืนยันปัจจุบัน โดยเฉพาะค่าเช่า 160 กับ 225 บาทอาจเป็นบริการต่างรูปแบบหรือต่างลาน ต้องสอบถามอุทยานฯ ว่านำไปใช้ที่ ย.2 ได้หรือไม่</p><p><b>คะแนนความสบาย:</b> บ้านเล็ก 4.5/5 ให้ความสำคัญกับความเป็นส่วนตัวและห้องน้ำแยก บ้านใหญ่ 4/5 เหมาะกับอยู่รวมกลุ่มแต่ใช้ห้องน้ำร่วมกัน เต็นท์ 2.5/5 ใช้ห้องน้ำรวมและต้องจัดการอุปกรณ์นอนเอง คะแนนนี้ไม่รับรองสภาพจริง</p><p>เว็บนี้ช่วยวางแผน ไม่มีระบบจองหรือข้อมูลห้องว่างแบบเรียลไทม์ โปรดตรวจราคาวันเข้าพักจริงกับระบบจอง DNP</p></div></details></section>
+  </main><footer><a class="footer-brand" href="#">ขุนตาล <span>ที่พักดี ๆ ก่อนเรื่องราวดี ๆ</span></a><span>จัดทำเพื่อวางแผนเดินทาง · ข้อมูลบ้านพักอัปเดต 14 ต.ค. 2569</span></footer><div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="photo-dialog"><button id="close-photo" aria-label="ปิดภาพขยาย">×</button><img id="large-photo" alt=""><p id="photo-caption"></p></dialog>
+</body></html>

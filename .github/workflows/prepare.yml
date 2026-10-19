@@ -1,0 +1,199 @@
+name: Prepare Reservation Plan
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reservation-plan-migration
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image codec
+        run: python -m pip install Pillow==11.3.0
+      - name: Prepare sanitized static website
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64, json, os, shutil, zlib
+          from pathlib import Path
+          from PIL import Image
+          source = Path('doi-khun-tan-stay-map-main/dist')
+          assert source.is_dir(), 'Expected uploaded park directory is missing; leave repository untouched.'
+          assert Path('.github/workflows/pages.yml').is_file(), 'Add the Pages workflow before migration.'
+          target = Path(os.environ['RUNNER_TEMP']) / 'reservation-plan-prepared'
+          target.mkdir()
+          park = target / 'dist/doi-khun-tan'
+          shutil.copytree(source, park)
+          html_path = park / 'index.html'
+          html = html_path.read_text(encoding='utf-8')
+          html = html.replace('<head>', '<head>\n  <meta name="robots" content="noindex">', 1)
+          html = html.replace('assets/park-map.png', 'assets/park-map.webp').replace('width="9000" height="6300"', 'width="3000" height="2100"')
+          html = html.replace('เปิดภาพต้นฉบับ ↗', 'เปิดแผนที่ WebP ↗').replace('ต้นฉบับ 9,000 × 6,300 px', 'WebP · 3,000 × 2,100 px')
+          html = html.replace('ใช้ภาพ “doi-khun-tan-reference-9000.png” จากแชต “ขยายแผนที่ 9000 px” ที่ปรับจาก PDF คงสัดส่วน 10:7', 'ใช้แผนที่อ้างอิงที่ผู้ใช้จัดเตรียมจาก PDF แปลงเป็น WebP ขนาด 3,000 × 2,100 พิกเซล คงสัดส่วน 10:7')
+          html = html.replace('<header class="header">', '<div class="hub-bar"><a href="../">← Reservation Plan</a><span>บันทึกการเดินทาง / Doi Khun Tan</span></div>\n  <header class="header">', 1)
+          html_path.write_text(html, encoding='utf-8')
+          with (park / 'style.css').open('a', encoding='utf-8') as css:
+              css.write('\n.hub-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px max(4vw,24px);background:#173e33;color:#f8f8f2;font-size:11px}.hub-bar a{font-weight:600;color:inherit}.hub-bar a:hover{text-decoration:underline}.hub-bar span{color:#c0d0bc}@media(max-width:600px){.hub-bar{padding:10px 18px}.hub-bar span{display:none}}\n')
+          sources_path = park / 'sources.json'
+          sources = json.loads(sources_path.read_text(encoding='utf-8'))
+          sources['map'] = 'User-provided reference map derived from PDF; published as assets/park-map.webp at 3000 x 2100 pixels, preserving the 10:7 aspect ratio.'
+          sources_path.write_text(json.dumps(sources, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          data_path = park / 'data.js'
+          data_path.write_text(data_path.read_text(encoding='utf-8'), encoding='utf-8')
+          payload = json.loads(zlib.decompress(base64.b64decode('''
+          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
+          WtwNWDn+LwaqzIg=
+          ''')))
+          for name, content in payload.items():
+              path = target / name
+              assert path.resolve().is_relative_to(target.resolve())
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(content, encoding='utf-8')
+          image_path = park / 'assets/park-map.png'
+          with Image.open(image_path) as image:
+              assert image.size == (9000, 6300)
+              image.resize((3000, 2100), Image.Resampling.LANCZOS).convert('RGB').save(image_path.with_suffix('.webp'), 'WEBP', quality=85, method=6)
+          image_path.unlink()
+          with Image.open(image_path.with_suffix('.webp')) as image:
+              assert image.size == (3000, 2100) and image.format == 'WEBP'
+          shutil.copytree(Path('.github/workflows'), target / '.github/workflows', dirs_exist_ok=True)
+          print('Prepared homepage, park page and WebP map in', target)
+          PY
+      - name: Validate prepared website
+        run: node "$RUNNER_TEMP/reservation-plan-prepared/checks.cjs"
+      - name: Commit clean initial website
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "oimsabi"
+          git config user.email "12725437+oimsabi@users.noreply.github.com"
+          git checkout --orphan reservation-clean
+          git rm -rf --ignore-unmatch .
+          cp -a "$RUNNER_TEMP/reservation-plan-prepared/." .
+          git add .
+          git diff --cached --check
+          git commit -m "Create Reservation Plan with Doi Khun Tan guide"
+          git push origin HEAD:main --force-with-lease="refs/heads/main:$GITHUB_SHA"
